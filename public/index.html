@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RFID Control & Logs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Local Bootstrap CSS & JS (offline-ready) -->
+  <link rel="stylesheet" href="./assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/app.css">
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header id="site-header">
+  <nav class="navbar navbar-dark bg-dark" aria-label="Primary navigation">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1" id="app-brand">
+        <img id="brand-logo" src="./assets/NoCapLogo.png" alt="NoCap logo" />
+        <span id="app-title">RFID Dashboard</span>
+      </span>
+      <span class="text-light small" aria-describedby="topic-desc">
+        NoCAP <code id="topic-desc">RFID_LOGIN</code>
+      </span>
+    </div>
+  </nav>
+</header>
+
+<main id="main-content" class="container py-4" role="main">
+  <!-- Centered row wrapper -->
+  <div class="row g-3 layout-center">
+
+    <section id="rfids-section" class="col-12 col-lg-5" aria-labelledby="rfids-title">
+      <div class="card shadow-sm h-100">
+        <div class="card-header">
+          <h2 id="rfids-title" class="h5 mb-0">Registered RFIDs</h2>
+        </div>
+        <div class="card-body">
+          <form id="add-form" class="row g-2 align-items-end" aria-labelledby="rfids-title">
+            <div class="col-12 col-sm-5">
+              <label for="uid" class="form-label">UID</label>
+              <input type="text" id="uid" class="form-control" placeholder="e.g. 04A1B2C3D4" autocomplete="off" inputmode="text">
+            </div>
+            <div class="col-12 col-sm-5">
+              <label for="owner" class="form-label">Owner</label>
+              <input type="text" id="owner" class="form-control" placeholder="e.g. Alice" autocomplete="off">
+            </div>
+            <div class="col-12 col-sm-2 d-grid">
+              <button class="btn btn-primary" type="submit" id="add-rfid-btn" aria-label="Add RFID">Add</button>
+            </div>
+          </form>
+
+          <div class="table-responsive mt-3" aria-live="off">
+            <table class="table table-sm align-middle" id="rfids-table">
+              <caption class="visually-hidden">List of registered RFIDs with owners and active status</caption>
+              <thead>
+                <tr>
+                  <th scope="col">UID</th>
+                  <th scope="col">Owner</th>
+                  <th scope="col" class="text-center">Status (1/0)</th>
+                </tr>
+              </thead>
+              <tbody id="rfids-body"></tbody>
+            </table>
+          </div>
+          <p class="small text-muted mb-0">Toggle switches update the active status stored in the database.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="logs-section" class="col-12 col-lg-7" aria-labelledby="logs-title">
+      <div class="card shadow-sm h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h2 id="logs-title" class="h5 mb-0">RFID Logs (latest first)</h2>
+          <div>
+            <button id="refresh-logs" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Refresh logs table">Refresh</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" style="max-height: 60vh;">
+            <table class="table table-sm table-striped align-middle" id="logs-table">
+              <caption class="visually-hidden">Recent RFID scan logs with status and timestamp</caption>
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">UID</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Timestamp (UTC)</th>
+                </tr>
+              </thead>
+              <tbody id="logs-body"></tbody>
+            </table>
+          </div>
+          <p class="small text-muted mb-0">This table updates automatically via Server-Sent Events as new scans arrive.</p>
+          <div id="live-updates" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<noscript>
+  <div class="container my-3">
+    <div class="alert alert-warning" role="status">JavaScript is disabled. The page will not auto-refresh or load data.</div>
+  </div>
+</noscript>
+
+<!-- Optional: local Bootstrap JS (bundle includes Popper) -->
+<script src="./assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="./assets/app.js"></script>
+</body>
+</html>
