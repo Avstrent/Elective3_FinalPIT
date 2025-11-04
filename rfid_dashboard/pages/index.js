@@ -2,6 +2,26 @@ import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Dashboard() {
+
+
+    useEffect(() => {
+    fetchData();
+    const interval = setInterval(fetchData, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    if (isNaN(date)) return dateStr;
+    return date.toLocaleString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
     return (
     <div className="container my-4">
       <div className="row g-2">
@@ -41,7 +61,7 @@ export default function Dashboard() {
             </ul>
           </div>
         </div>
-        
+
         {/* Right: Table */}
         <div className="col-md-9">
           <div className="card h-100">
