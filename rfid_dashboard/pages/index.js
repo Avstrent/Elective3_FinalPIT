@@ -1,7 +1,31 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Dashboard() {
+    const [logs, setLogs] = useState([]);
+    const [rfidList, setRfidList] = useState([]);
+
+    const fetchData = async () => {
+        try {
+        const res = await axios.get("http://10.141.68.150/esp32/get_logs.php");
+        if (Array.isArray(res.data)) {
+            setLogs(res.data);
+            const uniquesFromBatch = [...new Set(res.data.map((l) => l.rfid))];
+
+            setRfidList((prev) => {
+            const seen = new Set(prev);
+            const appended = [];
+            for (const r of uniquesFromBatch) if (!seen.has(r)) appended.push(r);
+            return appended.length ? [...prev, ...appended] : prev;
+            });
+        } else {
+            console.error("Data is not an array:", res.data);
+        }
+        } catch (error) {
+        console.error("Failed to fetch RFID logs:", error);
+        }
+    };
 
 
     useEffect(() => {
