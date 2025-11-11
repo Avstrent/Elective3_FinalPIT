@@ -3,32 +3,31 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Dashboard() {
-    const [logs, setLogs] = useState([]);
-    const [rfidList, setRfidList] = useState([]);
+  const [logs, setLogs] = useState([]);
+  const [rfidList, setRfidList] = useState([]);
 
-    const fetchData = async () => {
-        try {
-        const res = await axios.get("http://10.141.68.150/esp32/get_logs.php");
-        if (Array.isArray(res.data)) {
-            setLogs(res.data);
-            const uniquesFromBatch = [...new Set(res.data.map((l) => l.rfid))];
+  const fetchData = async () => {
+    try {
+      const res = await axios.get("http://10.141.68.150/esp32/get_logs.php");
+      if (Array.isArray(res.data)) {
+        setLogs(res.data);
+        const uniquesFromBatch = [...new Set(res.data.map((l) => l.rfid))];
 
-            setRfidList((prev) => {
-            const seen = new Set(prev);
-            const appended = [];
-            for (const r of uniquesFromBatch) if (!seen.has(r)) appended.push(r);
-            return appended.length ? [...prev, ...appended] : prev;
-            });
-        } else {
-            console.error("Data is not an array:", res.data);
-        }
-        } catch (error) {
-        console.error("Failed to fetch RFID logs:", error);
-        }
-    };
+        setRfidList((prev) => {
+          const seen = new Set(prev);
+          const appended = [];
+          for (const r of uniquesFromBatch) if (!seen.has(r)) appended.push(r);
+          return appended.length ? [...prev, ...appended] : prev;
+        });
+      } else {
+        console.error("Data is not an array:", res.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch RFID logs:", error);
+    }
+  };
 
-
-    useEffect(() => {
+  useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 1000);
     return () => clearInterval(interval);
@@ -46,7 +45,8 @@ export default function Dashboard() {
       hour12: true,
     });
   };
-    return (
+
+  return (
     <div className="container my-4">
       <div className="row g-2">
         {/* Left: RFID list */}
@@ -54,20 +54,23 @@ export default function Dashboard() {
           <div className="card bg-dark text-white h-auto">
             <div className="card-header text-center fw-bold">RFID</div>
             <ul className="list-group list-group-flush" style={{ borderRadius: "0" }}>
-              {rfidList.map((rfid, index) => {
-                const latest = logs.find((l) => l.rfid === rfid);
-                const status = latest ? latest.status : null;
-                const message = latest?.rfid_message;
-                return (
-                  <li
-                    key={rfid}
-                    className="list-group-item d-flex justify-content-between align-items-center bg-dark text-white border-0"
-                  >
-                    <span>{index + 1}. {rfid}</span>
-                    <div className="d-flex align-items-center gap-2">
-                      {message === "RFID NOT FOUND" ? (
-                        <span className="badge bg-danger">{message}</span>
-                      ) : (
+              {rfidList
+                
+                .filter((rfid) => {
+                  const latest = logs.find((l) => l.rfid === rfid);
+                  return latest && latest.rfid_message !== "RFID NOT FOUND";
+                })
+                .map((rfid, index) => {
+                  const latest = logs.find((l) => l.rfid === rfid);
+                  const status = latest ? latest.status : null;
+
+                  return (
+                    <li
+                      key={rfid}
+                      className="list-group-item d-flex justify-content-between align-items-center bg-dark text-white border-0"
+                    >
+                      <span>{index + 1}. {rfid}</span>
+                      <div className="d-flex align-items-center gap-2">
                         <div className="form-check form-switch">
                           <input
                             className="form-check-input"
@@ -77,11 +80,10 @@ export default function Dashboard() {
                             checked={status === 1 || status === "1"}
                           />
                         </div>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
+                      </div>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>
@@ -134,6 +136,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-    );
-        
+  );
 }
