@@ -1,17 +1,43 @@
-/* Standard CSS Reset/Base Styles */
+/**
+ * Global Styles for RFID Dashboard
+ * 
+ * These styles apply to all pages in the application.
+ * They provide a consistent baseline across all browsers.
+ */
+
+/* CSS Reset: Remove default browser styles for html and body */
 html,
 body {
+    /* Remove default padding and margin to start from zero */
     padding: 0;
     margin: 0;
+    
+    /* System font stack for best performance and native look
+     * Falls back through list until it finds an available font:
+     * 1. -apple-system: San Francisco font on macOS/iOS
+     * 2. BlinkMacSystemFont: San Francisco font on older macOS
+     * 3. Segoe UI: Windows font
+     * 4. Roboto: Android font
+     * 5. Oxygen, Ubuntu, Cantarell: Linux fonts
+     * 6. Fira Sans, Droid Sans: Generic fallbacks
+     * 7. Helvetica Neue, sans-serif: Final fallbacks
+     */
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
         Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+/* Link styles: Make links inherit color and remove underlines */
 a {
+    /* Links inherit text color from parent element */
     color: inherit;
+    
+    /* Remove default underline decoration */
     text-decoration: none;
 }
 
+/* Universal box-sizing: Include padding and border in element's total width/height
+ * This makes layout calculations more intuitive and predictable
+ */
 * {
     box-sizing: border-box;
 }
