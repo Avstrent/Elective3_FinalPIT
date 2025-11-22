@@ -14,16 +14,17 @@ body {
     
     /* System font stack for best performance and native look
      * Falls back through list until it finds an available font:
-     * 1. -apple-system: San Francisco font on macOS/iOS
-     * 2. BlinkMacSystemFont: San Francisco font on older macOS
-     * 3. Segoe UI: Windows font
-     * 4. Roboto: Android font
-     * 5. Oxygen, Ubuntu, Cantarell: Linux fonts
-     * 6. Fira Sans, Droid Sans: Generic fallbacks
-     * 7. Helvetica Neue, sans-serif: Final fallbacks
+     * - macOS/iOS: -apple-system, BlinkMacSystemFont
+     * - Windows: Segoe UI
+     * - Android: Roboto
+     * - Linux: Oxygen, Ubuntu, Cantarell
+     * - Fallbacks: Fira Sans, Droid Sans, Helvetica Neue, sans-serif
      */
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: 
+        -apple-system, BlinkMacSystemFont, 
+        Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, 
+        Helvetica Neue, sans-serif;
 }
 
 /* Link styles: Make links inherit color and remove underlines */
